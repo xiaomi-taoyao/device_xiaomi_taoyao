@@ -14,9 +14,6 @@ ro.hardware.fp.udfps     u:object_r:vendor_fp_prop:s0
 vendor.dtool. u:object_r:vendor_fp_prop:s0
 vendor.sys.fp. u:object_r:vendor_fp_prop:s0
 
-# Power
-vendor.powerhal.                   u:object_r:vendor_power_prop:s0
-
 # SPU
 persist.vendor.security.spuari.              u:object_r:vendor_security_spuari_prop:s0
 
