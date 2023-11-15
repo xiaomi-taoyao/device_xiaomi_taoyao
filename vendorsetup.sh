@@ -3,7 +3,7 @@ echo 'Starting to clone stuffs needed to build for taoyao'
 
 # Vendor
 echo 'Cloning vendor tree'
-rm -rf vendor/xiaomi/taoyao && git clone git@github.com:xiaomi-taoyao/vendor_xiaomi_taoyao.git vendor/xiaomi/taoyao
+rm -rf vendor/xiaomi/taoyao && git clone git@github.com:xiaomi-taoyao/vendor_xiaomi_taoyao.git -b lineage-21 vendor/xiaomi/taoyao
 
 
 # Kernel
