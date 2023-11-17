@@ -23,6 +23,8 @@ $(call inherit-product-if-exists, vendor/xiaomi/taoyao/taoyao-vendor.mk)
 # Setup dalvik vm configs
 $(call inherit-product, frameworks/native/build/phone-xhdpi-6144-dalvik-heap.mk)
 
+$(call inherit-product, vendor/bcr/bcr.mk)
+
 # API
 PRODUCT_SHIPPING_API_LEVEL := 30
 
@@ -117,6 +119,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES_DEBUG += \
     bootctl
 
+# Camera
+$(call inherit-product-if-exists, vendor/xiaomi/camera/miuicamera.mk)
+
 PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.4-impl \
     android.hardware.camera.provider@2.4-service_64 \
@@ -125,6 +130,9 @@ PRODUCT_PACKAGES += \
     libcamera2ndk_vendor \
     libion.vendor \
     libgui_vendor
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/camera_cnf.txt:$(TARGET_COPY_OUT_VENDOR)/etc/camera/camera_cnf.txt
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.flash-autofocus.xml \
@@ -298,6 +306,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     android.hardware.keymaster@4.1.vendor
 
+# Lineage Health
+PRODUCT_PACKAGES += \
+    vendor.lineage.health-service.default
+
 # Media
 PRODUCT_PACKAGES += \
     libmm-omxcore \
@@ -357,9 +369,11 @@ PRODUCT_PACKAGES += \
 
 # NFC
 PRODUCT_PACKAGES += \
-    android.hardware.nfc_snxxx@1.2-service \
+    android.hardware.nfc-service.nxp \
+    android.hardware.secure_element@1.2.vendor \
     com.android.nfc_extras \
     libchrome.vendor \
+    TaoyaoNfcOverlay \
     NfcNci \
     SecureElement \
     Tag
@@ -375,13 +389,16 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/com.android.nfc_extras.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/com.android.nfc_extras.xml \
     frameworks/native/data/etc/com.nxp.mifare.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/com.nxp.mifare.xml
 
+# Shim for Dolby codec
+PRODUCT_PACKAGES += libshim
+
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += \
-    $(LOCAL_PATH)/overlay
+    $(LOCAL_PATH)/overlay \
+    $(LOCAL_PATH)/overlay-evolution
 
 PRODUCT_PACKAGES += \
     CarrierConfigOverlay \
-    TaoyaoNfcOverlay \
     TaoyaoSettingsProviderOverlay \
     TaoyaoWifiOverlay \
     WifiOverlay
@@ -402,9 +419,18 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/perf/powerhint.json:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.json \
     $(LOCAL_PATH)/configs/perf/task_profiles.json:$(TARGET_COPY_OUT_VENDOR)/etc/task_profiles.json
 
+# Protobuf
+PRODUCT_PACKAGES += \
+    libprotobuf-cpp-full-3.9.1-vendorcompat \
+    libprotobuf-cpp-lite-3.9.1-vendorcompat
+
 # QTI
 PRODUCT_PACKAGES += \
     libqti_vndfwk_detect.vendor
+
+# Remove unwanted packages
+PRODUCT_PACKAGES += \
+    RemovePackages
 
 # RIL
 PRODUCT_PACKAGES += \
